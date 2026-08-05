@@ -1,0 +1,36 @@
+[Unit]
+Description=Web Search MCP Server (HTTP mode)
+Documentation=https://github.com/gannet-mcp/gannet-mcp
+After=network.target
+
+[Service]
+Type=simple
+
+# Run as unprivileged user
+User=websearch
+Group=websearch
+
+# Environment - loaded from drop-in config file
+EnvironmentFile=/etc/gannet-mcp.conf
+
+# Executable and arguments — all config via EnvironmentFile
+ExecStart=%{_bindir}/gannet-mcp --http \
+    --log-level info \
+    --log-format json \
+    --include-timestamps
+
+# Restart policy
+Restart=on-failure
+RestartSec=5
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=%{_localstatedir}/log/gannet-mcp
+
+# Resource limits
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,36 @@
+# Bright Data SERP API Configuration (generic /request endpoint)
+# Copy to .env or pass via --config flag
+
+server:
+  host: 127.0.0.1
+  port: 8080
+  use_stdio: false
+
+  http:
+    path: /mcp
+    sse_keep_alive_secs: 30
+    json_response: true
+    allowed_hosts:
+      - localhost
+      - 127.0.0.1
+    cors_origin: "*"
+
+search:
+  provider: brightdata
+  api_key: your-brightdata-api-key
+  search_engine_id: serp_api1
+  base_url: "https://api.brightdata.com"
+  default_limit: 10
+  max_limit: 100
+  timeout_secs: 10
+
+rate_limit:
+  enabled: true
+  requests_per_minute: 60
+  max_concurrent: 10
+  burst_size: 5
+
+logging:
+  level: info
+  format: pretty
+  include_timestamps: true

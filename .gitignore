@@ -1,0 +1,52 @@
+# Rust build artifacts
+/target/
+**/*.rs.bk
+
+# IDE MCP registration files
+mcp.json
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files (contain secrets)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Test artifacts
+coverage/
+*.prof
+*.profraw
+
+# Temporary files
+*.tmp
+*.bak
+*.orig
+
+# Build outputs
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Documentation build
+book/
+
+# RPM build artifacts
+rpmbuild/
+*.rpm
+*.srpm
+
+../
