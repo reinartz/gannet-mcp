@@ -1,6 +1,6 @@
 [Unit]
 Description=Web Search MCP Server (HTTP mode)
-Documentation=https://github.com/gannet-mcp/gannet-mcp
+Documentation=https://github.com/reinartz/gannet-mcp
 After=network.target
 
 [Service]

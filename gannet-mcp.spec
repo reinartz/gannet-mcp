@@ -6,7 +6,7 @@ Release:        1%{?dist}
 Summary:        MCP server for web searching and webpages fetching
 
 License:        MIT and Apache-2.0
-URL:            https://github.com/%{name}/%{name}
+URL:            https://github.com/reinartz/gannet-mcp
 Source0:        %{name}-%{version}.tar.gz
 
 BuildRequires:  rust >= 1.70

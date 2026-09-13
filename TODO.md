@@ -6,9 +6,9 @@ Tasks to complete before uploading to GitHub and crates.io.
 
 ## Publishing
 
-- [ ] **GitHub**
-  - [ ] Create GitHub repository
-  - [ ] Push to GitHub
+- [x] **GitHub**
+  - [x] Create GitHub repository (https://github.com/reinartz/gannet-mcp)
+  - [x] Push to GitHub
   - [ ] Create initial release tag (v0.1.0)
   - [ ] Add release notes
 - [ ] **crates.io**
