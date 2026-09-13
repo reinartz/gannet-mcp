@@ -9,12 +9,12 @@ Tasks to complete before uploading to GitHub and crates.io.
 - [x] **GitHub**
   - [x] Create GitHub repository (https://github.com/reinartz/gannet-mcp)
   - [x] Push to GitHub
-  - [ ] Create initial release tag (v0.1.0)
-  - [ ] Add release notes
-- [ ] **crates.io**
-  - [ ] Run `cargo publish --dry-run` to verify
-  - [ ] Publish to crates.io with `cargo publish`
-  - [ ] Verify crate page on crates.io
+  - [x] Create initial release tag (v0.1.0)
+  - [x] Add release notes (https://github.com/reinartz/gannet-mcp/releases/tag/v0.1.0)
+- [x] **crates.io** (gannet-mcp 0.1.0 live since 2026-08-05)
+  - [x] Run `cargo publish --dry-run` to verify
+  - [x] Publish to crates.io with `cargo publish`
+  - [x] Verify crate page on crates.io
 
 ## Post-Publish (Optional)
 
