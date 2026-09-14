@@ -1,5 +1,9 @@
 # gannet-mcp
 
+[![Crates.io](https://img.shields.io/crates/v/gannet-mcp.svg)](https://crates.io/crates/gannet-mcp)
+[![CI](https://github.com/reinartz/gannet-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/reinartz/gannet-mcp/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](LICENSE-MIT)
+
 A Model Context Protocol (MCP) server implementation in Rust for web searching and webpage fetching.
 
 ## Features
@@ -186,7 +190,7 @@ gannet-mcp mcp-config --client claude --stdio --print   # emit JSON snippet
 Supported clients: `claude | cursor | zed | opencode | continue | copilot`;
 `--stdio` (default) or `--http`; `--print` (default) or `--write`.
 
-> **Security note:** HTTP mode has no authentication in v0.1.0 (bearer-token
+> **Security note:** HTTP mode has no authentication in v0.2.0 (bearer-token
 > auth is a planned follow-up). Bind localhost (the default) and expose it
 > via a reverse proxy with TLS if remote access is needed. Avoid binding
 > `0.0.0.0` on an untrusted network.
