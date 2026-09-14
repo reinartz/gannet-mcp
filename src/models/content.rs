@@ -527,7 +527,7 @@ mod tests {
             extract_images: true,
             timeout_secs: 45,
             user_agent: Some("CloneBot/2.0".to_string()),
-            max_content_size: 1 * 1024 * 1024,
+            max_content_size: 1024 * 1024,
         };
         let cloned = params.clone();
         assert_eq!(params.url, cloned.url);

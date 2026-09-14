@@ -6,18 +6,16 @@ After=network.target
 [Service]
 Type=simple
 
-# Run as unprivileged user
-User=websearch
-Group=websearch
+# Run as unprivileged user (created via systemd-sysusers drop-in)
+User=gannet-mcp
+Group=gannet-mcp
 
 # Environment - loaded from drop-in config file
 EnvironmentFile=/etc/gannet-mcp.conf
 
-# Executable and arguments — all config via EnvironmentFile
-ExecStart=%{_bindir}/gannet-mcp --http \
-    --log-level info \
-    --log-format json \
-    --include-timestamps
+# NOTE: the `service run` subcommand will be implemented in Phase 1;
+# until then this ExecStart will fail. All config via EnvironmentFile.
+ExecStart=/usr/bin/gannet-mcp service run
 
 # Restart policy
 Restart=on-failure
@@ -27,7 +25,7 @@ RestartSec=5
 NoNewPrivileges=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=%{_localstatedir}/log/gannet-mcp
+ReadWritePaths=/var/log/gannet-mcp
 
 # Resource limits
 LimitNOFILE=65536

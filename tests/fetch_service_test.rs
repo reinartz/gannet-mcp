@@ -147,7 +147,7 @@ fn test_fetch_with_image_extraction() {
     let content = result.expect("Fetch should succeed");
     let images = content.images.expect("Images should be present");
     assert!(
-        images.len() >= 1,
+        !images.is_empty(),
         "Expected at least 1 image, got {}",
         images.len()
     );

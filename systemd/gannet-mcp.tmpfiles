@@ -1,0 +1,5 @@
+# systemd-tmpfiles entry for gannet-mcp.
+# Installed to %{_tmpfilesdir}/gannet-mcp.conf by the RPM spec.
+# Creates /var/log/gannet-mcp owned by the service user (see ReadWritePaths=
+# in gannet-mcp.service).
+d /var/log/gannet-mcp 0750 gannet-mcp gannet-mcp -

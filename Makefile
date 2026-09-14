@@ -28,14 +28,14 @@ rpm:
 	SOURCES="$(CURDIR)/rpmbuild/SOURCES"; \
 	rm -rf "$$SOURCES"; \
 	mkdir -p "$$SOURCES" rpmbuild/SPECS rpmbuild/RPMS rpmbuild/SRPMS rpmbuild/BUILD rpmbuild/BUILDROOT; \
-	git archive --prefix="web-search-mcp-server-$$VERSION/" -o "$$SOURCES/web-search-mcp-server-$$VERSION.tar.gz" HEAD 2>/dev/null; \
-	if [ "$$(tar tzf "$$SOURCES/web-search-mcp-server-$$VERSION.tar.gz" 2>/dev/null | wc -l)" -le 1 ]; then \
-		tar czf "$$SOURCES/web-search-mcp-server-$$VERSION.tar.gz" \
+	git archive --prefix="gannet-mcp-$$VERSION/" -o "$$SOURCES/gannet-mcp-$$VERSION.tar.gz" HEAD 2>/dev/null; \
+	if [ "$$(tar tzf "$$SOURCES/gannet-mcp-$$VERSION.tar.gz" 2>/dev/null | wc -l)" -le 1 ]; then \
+		tar czf "$$SOURCES/gannet-mcp-$$VERSION.tar.gz" \
 			--exclude=target --exclude=rpmbuild --exclude=.git \
-			--transform "s%^./%web-search-mcp-server-$$VERSION/%" \
+			--transform "s%^./%gannet-mcp-$$VERSION/%" \
 			-C "$(CURDIR)" .; \
 	fi; \
-	rpmbuild -D "_topdir $(CURDIR)/rpmbuild" -ba web-search-mcp-server.spec
+	rpmbuild -D "_topdir $(CURDIR)/rpmbuild" -ba gannet-mcp.spec
 
 srpm:
 	@if ! command -v rpmbuild &>/dev/null; then \
@@ -48,15 +48,15 @@ srpm:
 	SOURCES="$(CURDIR)/rpmbuild/SOURCES"; \
 	rm -rf "$$SOURCES" rpmbuild/SPECS rpmbuild/SRPMS; \
 	mkdir -p "$$SOURCES" rpmbuild/SPECS rpmbuild/SRPMS; \
-	cp web-search-mcp-server.spec rpmbuild/SPECS/; \
-	git archive --prefix="web-search-mcp-server-$$VERSION/" -o "$$SOURCES/web-search-mcp-server-$$VERSION.tar.gz" HEAD 2>/dev/null; \
-	if [ "$$(tar tzf "$$SOURCES/web-search-mcp-server-$$VERSION.tar.gz" 2>/dev/null | wc -l)" -le 1 ]; then \
-		tar czf "$$SOURCES/web-search-mcp-server-$$VERSION.tar.gz" \
+	cp gannet-mcp.spec rpmbuild/SPECS/; \
+	git archive --prefix="gannet-mcp-$$VERSION/" -o "$$SOURCES/gannet-mcp-$$VERSION.tar.gz" HEAD 2>/dev/null; \
+	if [ "$$(tar tzf "$$SOURCES/gannet-mcp-$$VERSION.tar.gz" 2>/dev/null | wc -l)" -le 1 ]; then \
+		tar czf "$$SOURCES/gannet-mcp-$$VERSION.tar.gz" \
 			--exclude=target --exclude=rpmbuild --exclude=.git \
-			--transform "s%^./%web-search-mcp-server-$$VERSION/%" \
+			--transform "s%^./%gannet-mcp-$$VERSION/%" \
 			-C "$(CURDIR)" .; \
 	fi; \
-	rpmbuild -D "_topdir $(CURDIR)/rpmbuild" -bs web-search-mcp-server.spec
+	rpmbuild -D "_topdir $(CURDIR)/rpmbuild" -bs gannet-mcp.spec
 
 .PHONY: install-rpm-deps
 install-rpm-deps:

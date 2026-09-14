@@ -22,8 +22,7 @@ gannet-mcp/
 │   ├── lib.rs              # Library root (re-exports Config, Server, ServerError)
 │   ├── config.rs           # Configuration management (all config structs)
 │   ├── error.rs            # Error types (ServerError enum)
-│   ├── server.rs           # MCP server (rmcp 3.x #[tool]/#[tool_router])
-│   ├── handler.rs          # (legacy) Old mcp_types-based handler — kept for reference
+ │   ├── server.rs           # MCP server (rmcp 3.x #[tool]/#[tool_router])
 │   ├── models/             # Data models
 │   │   ├── mod.rs
 │   │   ├── search.rs       # Search request/response models
@@ -74,9 +73,9 @@ Wraps services and handles MCP protocol details:
 Implements business logic:
 - `search_service.rs` - `SearchProvider` trait with provider implementations
   - `DuckDuckGoProvider` - Uses `ddgs` crate
-  - `BingProvider` - Bing Search API
   - `SerperProvider` - Serper API
   - `SearXNGProvider` - SearXNG API
+  - `BrightDataProvider` - Bright Data SERP API
 - `fetch_service.rs` - HTTP fetching, HTML parsing with `scraper`
 
 ### 5. Model Layer (`src/models/`)

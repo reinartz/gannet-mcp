@@ -249,7 +249,7 @@ mod tests {
     #[test]
     fn server_result_is_ok() {
         let result: ServerResult<i32> = Ok(42);
-        assert_eq!(result.unwrap(), 42);
+        assert!(matches!(result, Ok(42)));
     }
 
     #[test]

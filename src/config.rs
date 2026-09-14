@@ -280,6 +280,35 @@ impl Default for LoggingConfig {
     }
 }
 
+impl Config {
+    /// Load configuration from a file
+    pub fn from_file(path: &std::path::Path) -> Result<Self, config::ConfigError> {
+        let settings = config::Config::builder()
+            .add_source(config::File::from(path))
+            .add_source(
+                config::Environment::with_prefix("MCP")
+                    .separator("__")
+                    .try_parsing(true),
+            )
+            .build()?;
+
+        settings.try_deserialize()
+    }
+
+    /// Load configuration from environment variables
+    pub fn from_env() -> Result<Self, config::ConfigError> {
+        let settings = config::Config::builder()
+            .add_source(
+                config::Environment::with_prefix("MCP")
+                    .separator("__")
+                    .try_parsing(true),
+            )
+            .build()?;
+
+        settings.try_deserialize()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1140,34 +1169,5 @@ search:
         // Cleanup
         env::remove_var("MCP__RATE_LIMIT__BURST_SIZE");
         env::remove_var("MCP__SEARCH__TIMEOUT_SECS");
-    }
-}
-
-impl Config {
-    /// Load configuration from a file
-    pub fn from_file(path: &std::path::Path) -> Result<Self, config::ConfigError> {
-        let settings = config::Config::builder()
-            .add_source(config::File::from(path))
-            .add_source(
-                config::Environment::with_prefix("MCP")
-                    .separator("__")
-                    .try_parsing(true),
-            )
-            .build()?;
-
-        settings.try_deserialize()
-    }
-
-    /// Load configuration from environment variables
-    pub fn from_env() -> Result<Self, config::ConfigError> {
-        let settings = config::Config::builder()
-            .add_source(
-                config::Environment::with_prefix("MCP")
-                    .separator("__")
-                    .try_parsing(true),
-            )
-            .build()?;
-
-        settings.try_deserialize()
     }
 }

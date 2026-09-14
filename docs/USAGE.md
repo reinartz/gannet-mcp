@@ -44,6 +44,11 @@ MCP__SERVER__HTTP__HOST=0.0.0.0 MCP__SERVER__HTTP__PORT=9000 gannet-mcp --http
 gannet-mcp --http --mcp-path /api/mcp
 ```
 
+> **Security note:** HTTP mode has no authentication in v0.1.0 (bearer-token
+> auth is a planned follow-up). Bind localhost (the default) and expose it
+> via a reverse proxy with TLS if remote access is needed. Avoid binding
+> `0.0.0.0` on an untrusted network.
+
 ### HTTP Configuration Options
 
 | Option | Env Var | Default | Description |

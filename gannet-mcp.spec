@@ -16,7 +16,7 @@ BuildRequires:  rust-srpm-macros
 %description
 A Model Context Protocol (MCP) server that provides web search and webpage
 fetching capabilities. Supports multiple search providers including DuckDuckGo,
-Google, Bing, Serper, and SearXNG.
+Serper, SearXNG, and Bright Data.
 
 %prep
 %setup -q -n %{crate_name}-%{version}
@@ -34,6 +34,8 @@ Google, Bing, Serper, and SearXNG.
 mkdir -p %{buildroot}%{_sysconfdir}/gannet-mcp
 install -Dm 644 systemd/gannet-mcp.service %{buildroot}%{_unitdir}/gannet-mcp.service
 install -Dm 644 systemd/gannet-mcp.conf %{buildroot}%{_sysconfdir}/gannet-mcp.conf
+install -Dm 644 systemd/gannet-mcp.sysusers %{buildroot}%{_sysusersdir}/gannet-mcp.conf
+install -Dm 644 systemd/gannet-mcp.tmpfiles %{buildroot}%{_tmpfilesdir}/gannet-mcp.conf
 
 %check
 %cargo_test
@@ -44,6 +46,8 @@ install -Dm 644 systemd/gannet-mcp.conf %{buildroot}%{_sysconfdir}/gannet-mcp.co
 %{_bindir}/%{name}
 %{_unitdir}/gannet-mcp.service
 %{_sysconfdir}/gannet-mcp.conf
+%{_sysusersdir}/gannet-mcp.conf
+%{_tmpfilesdir}/gannet-mcp.conf
 
 %changelog
 * Fri Jul 31 2026  Ole Reinartz - 0.1.0-1
