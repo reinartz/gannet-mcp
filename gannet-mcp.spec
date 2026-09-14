@@ -1,7 +1,7 @@
 %define crate_name gannet-mcp
 
 Name:           gannet-mcp
-Version:        0.1.0
+Version:        0.2.0
 Release:        1%{?dist}
 Summary:        MCP server for web searching and webpages fetching
 
@@ -50,5 +50,7 @@ install -Dm 644 systemd/gannet-mcp.tmpfiles %{buildroot}%{_tmpfilesdir}/gannet-m
 %{_tmpfilesdir}/gannet-mcp.conf
 
 %changelog
+* Mon Sep 14 2026  Ole Reinartz - 0.2.0-1
+- service and mcp-config CLI subcommands, cargo-dist release pipeline
 * Fri Jul 31 2026  Ole Reinartz - 0.1.0-1
 - Initial RPM release

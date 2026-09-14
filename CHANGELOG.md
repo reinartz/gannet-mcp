@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-14
+
+### Added
+- `service` CLI subcommand (`install`, `uninstall`, `start`, `stop`, `restart`, `status`, hidden `run` daemon entry) with systemd, launchd, and Windows SCM backends
+- `mcp-config` CLI subcommand emitting MCP client snippets (claude, cursor, zed, opencode, continue, copilot) with `--print`/`--write`
+- cargo-dist release pipeline (6 targets, shell + PowerShell installers)
+- systemd sysusers/tmpfiles drop-ins for the `gannet-mcp` user
+
+### Fixed
+- Repository URLs in spec file and systemd unit
+- Four `cargo clippy --all-targets` lints; CI clippy now uses `--all-targets`
+- Removed stale `src/handler.rs` and Google/Bing provider references from docs
+
+### Security
+- Documented HTTP transport has no auth: bind localhost + reverse proxy/TLS, warning before binding `0.0.0.0`
+
 ## [0.1.0] - 2026-08-05
 
 ### Added
