@@ -11,7 +11,7 @@ User=gannet-mcp
 Group=gannet-mcp
 
 # Environment - loaded from drop-in config file
-EnvironmentFile=/etc/gannet-mcp.conf
+EnvironmentFile=-/etc/gannet-mcp.conf
 
 # NOTE: the `service run` subcommand will be implemented in Phase 1;
 # until then this ExecStart will fail. All config via EnvironmentFile.

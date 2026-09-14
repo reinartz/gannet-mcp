@@ -102,9 +102,10 @@ pub fn resolve_client(args: &McpConfigArgs) -> McpClient {
     args.client.clone().unwrap_or(McpClient::Opencode)
 }
 
-/// Transport selection: `--http` alone means HTTP; both/neither means STDIO.
+/// Transport selection: `--http` wins (matches the server flags in main.rs,
+/// where `--http` overrides `--stdio`); neither flag means STDIO.
 pub fn resolve_use_http(args: &McpConfigArgs) -> bool {
-    args.http && !args.stdio
+    args.http
 }
 
 /// `--print` is the default when `--write` is absent; both flags mean both.
@@ -612,8 +613,8 @@ mod tests {
         assert!(!resolve_use_http(&args_for(
             None, false, false, false, false
         )));
-        // Both flags → STDIO.
-        assert!(!resolve_use_http(&args_for(None, true, true, false, false)));
+        // Both flags → HTTP (--http wins, like the server flags).
+        assert!(resolve_use_http(&args_for(None, true, true, false, false)));
         // --http alone → HTTP.
         assert!(resolve_use_http(&args_for(None, false, true, false, false)));
         // --stdio alone → STDIO.
