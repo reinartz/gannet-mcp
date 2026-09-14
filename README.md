@@ -1,4 +1,4 @@
-# Web Search MCP Server
+# gannet-mcp
 
 A Model Context Protocol (MCP) server implementation in Rust for web searching and webpage fetching.
 
@@ -36,10 +36,11 @@ gannet-mcp/
 ├── src/
 │   ├── main.rs             # Binary entry point
 │   ├── lib.rs              # Library root
+│   ├── service.rs            # `service` subcommand (OS service install/run/status)
+│   ├── mcp_config.rs         # `mcp-config` subcommand (client JSON snippet)
 │   ├── server.rs           # MCP server (rmcp 3.x #[tool]/#[tool_router])
 │   ├── config.rs           # Configuration management
-│   ├── error.rs            # Error types
-│   ├── handler.rs          # (legacy) Old mcp_types-based handler — kept for reference
+ │   ├── error.rs            # Error types
 │   ├── models/             # Data models
 │   │   ├── mod.rs
 │   │   ├── search.rs       # Search request/response models
@@ -154,6 +155,41 @@ gannet-mcp --log-level debug
 # Using config file
 gannet-mcp --config config.yaml
 ```
+
+### HTTP Mode
+
+```bash
+# Serve MCP over Streamable HTTP (default binds localhost)
+gannet-mcp --http
+
+# Custom endpoint path
+gannet-mcp --http --mcp-path /api/mcp
+```
+
+### OS Service (HTTP daemon)
+
+```bash
+sudo gannet-mcp service install   # install + enable + start (systemd/launchd/SCM)
+gannet-mcp service status         # no root required
+sudo gannet-mcp service restart   # start | stop | uninstall likewise
+```
+
+`install` points the OS supervisor at the hidden `gannet-mcp service run`
+entry point, which always serves HTTP (never STDIO).
+
+### MCP Client Config
+
+```bash
+gannet-mcp mcp-config --client claude --stdio --print   # emit JSON snippet
+```
+
+Supported clients: `claude | cursor | zed | opencode | continue | copilot`;
+`--stdio` (default) or `--http`; `--print` (default) or `--write`.
+
+> **Security note:** HTTP mode has no authentication in v0.1.0 (bearer-token
+> auth is a planned follow-up). Bind localhost (the default) and expose it
+> via a reverse proxy with TLS if remote access is needed. Avoid binding
+> `0.0.0.0` on an untrusted network.
 
 ### MCP Tools
 

@@ -52,8 +52,10 @@
 pub mod config;
 pub mod error;
 pub mod handlers;
+pub mod mcp_config;
 pub mod models;
 pub mod server;
+pub mod service;
 pub mod services;
 
 // Re-export commonly used types

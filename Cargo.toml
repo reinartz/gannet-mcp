@@ -96,6 +96,9 @@ rmcp = { version = "3.1.0", features = [
     "transport-streamable-http-client-reqwest"
 ] }
 
+[target.'cfg(windows)'.dependencies]
+windows-service = "0.7"
+
 [profile.release]
 opt-level = 3
 lto = true

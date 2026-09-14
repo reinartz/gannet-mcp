@@ -22,8 +22,8 @@ make clean                     # clean build artifacts
 - **MCP SDK**: `rmcp` v3.1.0 with `server`, `transport-io`, `macros`, `schemars`, `transport-streamable-http-server` features
 - **Two tools**: `web_search` and `web_fetch` (defined via `#[tool]` and `#[tool_router]` macros in `src/server.rs`)
 - **Pattern**: `handlers/` wrap `services/`; services implement `SearchProvider` trait
-- **Dead code**: `src/handler.rs` is a legacy file using the old `mcp_types` crate — kept for reference only; the active code is in `src/handlers/`
 - **DuckDuckGo**: uses the `ddgs` crate (not HTML scraping)
+- **CLI service/mcp-config**: `src/service.rs` (`ServiceAction`, OS supervisors launch `service run` in forced-HTTP mode) and `src/mcp_config.rs` (client-snippet stub, Phase 1b owns the body); `--config`/`--log-*` are global clap args
 
 ## Search providers
 

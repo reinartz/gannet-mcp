@@ -6,12 +6,12 @@
 //! This binary provides a command-line interface for the web search MCP server.
 
 use anyhow::{Context, Result};
-use clap::{Parser, ValueEnum};
+use clap::{Parser, Subcommand, ValueEnum};
 use std::path::PathBuf;
-use tracing::{error, info, Level};
+use tracing::{info, Level};
 use tracing_subscriber::{fmt, prelude::*, EnvFilter};
 
-use gannet_mcp::{Config, LoggingConfig, Server};
+use gannet_mcp::{mcp_config, service, Config, LoggingConfig, Server};
 
 /// Web Search MCP Server
 ///
@@ -21,19 +21,19 @@ use gannet_mcp::{Config, LoggingConfig, Server};
 #[command(version, about = "MCP server for web search and fetch operations", long_about = None)]
 struct Args {
     /// Configuration file path
-    #[arg(short, long, value_name = "FILE")]
+    #[arg(short, long, value_name = "FILE", global = true)]
     config: Option<PathBuf>,
 
     /// Log level (trace, debug, info, warn, error)
-    #[arg(short, long, default_value = "info")]
+    #[arg(short, long, default_value = "info", global = true)]
     log_level: Level,
 
     /// Log format (pretty, json, compact)
-    #[arg(long, default_value = "pretty")]
+    #[arg(long, default_value = "pretty", global = true)]
     log_format: LogFormat,
 
     /// Include timestamps in log output
-    #[arg(long)]
+    #[arg(long, global = true)]
     include_timestamps: bool,
 
     /// Host to bind to (default: 127.0.0.1)
@@ -123,6 +123,20 @@ struct Args {
     /// Burst size for token bucket (default: 5)
     #[arg(long)]
     burst_size: Option<u32>,
+
+    #[command(subcommand)]
+    command: Option<Command>,
+}
+
+#[derive(Subcommand, Debug)]
+enum Command {
+    /// Manage the gannet-mcp OS service (HTTP daemon)
+    Service {
+        #[command(subcommand)]
+        action: service::ServiceAction,
+    },
+    /// Emit an MCP client config snippet
+    McpConfig(mcp_config::McpConfigArgs),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, ValueEnum)]
@@ -147,7 +161,9 @@ impl std::fmt::Display for LogFormat {
 
 fn main() {
     if let Err(e) = run() {
-        error!("Fatal error: {}", e);
+        // Plain stderr: subcommand paths (service/mcp-config) never initialize
+        // the tracing subscriber, so `error!` would be silently swallowed.
+        eprintln!("gannet-mcp: error: {e:#}");
         std::process::exit(1);
     }
 }
@@ -155,9 +171,27 @@ fn main() {
 fn run() -> Result<()> {
     let args = Args::parse();
 
-    // Load configuration
-    let config = load_config(&args)?;
+    match &args.command {
+        // Hidden daemon entry via the OS supervisor: same as the legacy HTTP
+        // path but forced to HTTP, honoring global flags (--config, --port…).
+        Some(Command::Service {
+            action: service::ServiceAction::Run,
+        }) => {
+            let mut config = load_config(&args)?;
+            service::apply_run_overrides(&mut config);
+            run_server(config)
+        }
+        Some(Command::Service { action }) => service::run_service(action),
+        Some(Command::McpConfig(mc_args)) => mcp_config::run_mcp_config(mc_args),
+        // Legacy path: no subcommand, STDIO by default.
+        None => {
+            let config = load_config(&args)?;
+            run_server(config)
+        }
+    }
+}
 
+fn run_server(config: Config) -> Result<()> {
     // Initialize logging from config (which already has CLI overrides applied)
     init_logging(&config.logging)?;
 
@@ -840,5 +874,86 @@ mod tests {
         let args = Args::try_parse_from(["gannet-mcp", "--rate-limited"]).unwrap();
         let config = load_config(&args).unwrap();
         assert!(config.rate_limit.enabled);
+    }
+
+    #[test]
+    fn test_service_status_parsing() {
+        let args = Args::try_parse_from(["gannet-mcp", "service", "status"]).unwrap();
+        assert!(matches!(
+            args.command,
+            Some(Command::Service {
+                action: service::ServiceAction::Status
+            })
+        ));
+    }
+
+    #[test]
+    fn test_service_run_parsing_hidden() {
+        // `run` is hidden from help but must still parse.
+        let args = Args::try_parse_from(["gannet-mcp", "service", "run"]).unwrap();
+        assert!(matches!(
+            args.command,
+            Some(Command::Service {
+                action: service::ServiceAction::Run
+            })
+        ));
+    }
+
+    #[test]
+    fn test_service_run_forces_http() {
+        // Unit-level: the `service run` path forces use_stdio=false.
+        let args = Args::try_parse_from(["gannet-mcp", "service", "run"]).unwrap();
+        let mut config = load_config(&args).unwrap();
+        service::apply_run_overrides(&mut config);
+        assert!(!config.server.use_stdio);
+    }
+
+    #[test]
+    fn test_service_run_forces_http_over_cli_stdio() {
+        // Even an explicit `--stdio` must not survive the `service run` override.
+        let args = Args::try_parse_from(["gannet-mcp", "--stdio", "service", "run"]).unwrap();
+        assert!(args.stdio);
+        let mut config = load_config(&args).unwrap();
+        assert!(config.server.use_stdio);
+        service::apply_run_overrides(&mut config);
+        assert!(!config.server.use_stdio);
+    }
+
+    #[test]
+    fn test_mcp_config_parsing() {
+        let args =
+            Args::try_parse_from(["gannet-mcp", "mcp-config", "--client", "claude", "--http"])
+                .unwrap();
+        match args.command {
+            Some(Command::McpConfig(mc)) => {
+                assert!(matches!(mc.client, Some(mcp_config::McpClient::Claude)));
+                assert!(mc.http);
+                assert!(!mc.stdio);
+            }
+            other => panic!("expected mcp-config subcommand, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn test_global_flags_after_subcommand() {
+        // `--config` / `--log-*` are global: they parse after subcommands too.
+        let args = Args::try_parse_from([
+            "gannet-mcp",
+            "service",
+            "status",
+            "--log-level",
+            "debug",
+            "--log-format",
+            "json",
+        ])
+        .unwrap();
+        assert_eq!(args.log_level, Level::DEBUG);
+        assert_eq!(args.log_format, LogFormat::Json);
+        assert!(matches!(
+            args.command,
+            Some(Command::Service {
+                action: service::ServiceAction::Status
+            })
+        ));
     }
 }
