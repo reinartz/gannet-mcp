@@ -60,4 +60,4 @@ srpm:
 
 .PHONY: install-rpm-deps
 install-rpm-deps:
-	sudo dnf install -y rpm-build rust cargo rust-srpm-macros
+	sudo dnf install -y rpm-build rust cargo rust-srpm-macros cargo-rpm-macros
