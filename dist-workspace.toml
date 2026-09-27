@@ -23,3 +23,14 @@ install-updater = false
 
 [dist.github-custom-runners]
 aarch64-pc-windows-msvc = "windows-11-arm"
+
+# System dependencies installed before the build.
+# Chocolatey is Windows-only (Apt covers Linux, Homebrew covers macOS),
+# so this affects Windows CI jobs only (both x86_64/windows-2022 and
+# aarch64/windows-11-arm, which both build MSIs).
+# windows-2022 preinstalls WiX v3; windows-11-arm does not, so install it
+# explicitly via the Chocolatey `wixtoolset` package (WiX v3, provides
+# candle.exe + light.exe required by cargo-wix / dist MSI flow; WiX v4+ is
+# NOT supported by dist).
+[dist.dependencies.chocolatey]
+wixtoolset = '*'
