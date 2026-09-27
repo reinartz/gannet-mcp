@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-09-27
+
+### Added
+- Windows ARM64 binaries + MSI installer (`gannet-mcp-*-aarch64-pc-windows-msvc.{zip,msi}`) built on a native `windows-11-arm` runner; cargo-xwin cross for this target dropped (incompatible with the `ring` C build-script)
+
 ## [0.2.1] - 2026-09-27
 
 ### Added
