@@ -1,0 +1,42 @@
+- name: Install WiX Toolset v3 (Windows MSI prerequisite)
+  if: runner.os == 'Windows'
+  shell: pwsh
+  run: |
+    choco install wixtoolset --yes --no-progress
+- name: Add WiX candle.exe to PATH (fixes ARM64 choco PATH gap)
+  if: runner.os == 'Windows'
+  shell: pwsh
+  run: |
+    $searched = @(
+      'C:\Program Files\WiX Toolset v3*\bin\candle.exe',
+      'C:\Program Files (x86)\WiX Toolset v3*\bin\candle.exe'
+    )
+    $found = @()
+    foreach ($pattern in $searched) {
+      $found += Get-ChildItem -Path $pattern -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName
+    }
+    if ($env:WIX) {
+      $wixCandle = Join-Path $env:WIX 'bin\candle.exe'
+      $found += Get-ChildItem -Path $wixCandle -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName
+    }
+    $chocoBase = if ($env:ChocolateyInstall) { $env:ChocolateyInstall } else { 'C:\ProgramData\chocolatey' }
+    $chocoLib = Join-Path $chocoBase 'lib'
+    $searched += "$chocoLib\\wixtoolset* (recursive search for candle.exe)"
+    if (Test-Path $chocoLib) {
+      $found += Get-ChildItem -Path $chocoLib -Filter 'candle.exe' -Recurse -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName
+    }
+    $found = $found | Sort-Object -Unique
+    if (-not $found -or $found.Count -eq 0) {
+      $msg = "candle.exe not found. Searched: $($searched -join '; '); WIX env: $($env:WIX); Chocolatey lib: $chocoLib. WiX v3 install via Chocolatey did not yield candle.exe; MSI build cannot proceed."
+      Write-Error $msg
+      exit 1
+    }
+    $candle = $found | Select-Object -First 1
+    $binDir = Split-Path -Parent $candle
+    $toolsetRoot = Split-Path -Parent $binDir
+    Write-Host "Found candle.exe at: $candle"
+    Write-Host "Adding to PATH: $binDir"
+    Add-Content -Path $env:GITHUB_PATH -Value $binDir
+    Write-Host "Setting WIX=$toolsetRoot"
+    Add-Content -Path $env:GITHUB_ENV -Value "WIX=$toolsetRoot"
+    & $candle -? | Select-Object -First 5
