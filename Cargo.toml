@@ -1,6 +1,6 @@
 [package]
 name = "gannet-mcp"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 authors = ["Ole Reinartz"]
 description = "MCP server for web searching and webpages fetching"
@@ -11,6 +11,12 @@ categories = ["web-programming", "network-programming"]
 homepage = "https://github.com/reinartz/gannet-mcp"
 repository = "https://github.com/reinartz/gannet-mcp"
 documentation = "https://docs.rs/gannet-mcp"
+
+[package.metadata.wix]
+upgrade-guid = "CD8FE54D-85AD-49AF-A9BE-858F8ED425C9"
+path-guid = "5475E9A3-1FF7-4217-AC2D-60D9571D5BB6"
+license = false
+eula = false
 
 [lib]
 name = "gannet_mcp"

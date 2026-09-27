@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-09-27
+
+### Added
+- Windows MSI installer (unsigned) via cargo-dist (`gannet-mcp-*-x86_64-pc-windows-msvc.msi`)
+
+### Fixed
+- EnvironmentFile dash mismatch in systemd unit
+- `mcp-config --stdio --http` now selects HTTP like the server flags
+
+### Docs
+- INSTALL/SERVICES/STDIO guides + README badges (Phase 6)
+
 ## [0.2.0] - 2026-09-14
 
 ### Added
