@@ -121,13 +121,20 @@ Note: on Homebrew 7.x run `brew tap reinartz/formulae` and
 `brew trust reinartz/formulae` first, otherwise `audit`/`install` refuse to
 resolve the formula as untrusted.
 
-## Coming later / roadmap
+## Option 7 — winget (Windows)
 
-- **winget** package — manifest PR [microsoft/winget-pkgs#434439](https://github.com/microsoft/winget-pkgs/pull/434439) is open and passed automated validation; pending Microsoft reviewer merge. Not installable via `winget` yet.
+```powershell
+winget install OleReinartz.GannetMcp
+```
+
+Published in the community repository ([PR #434439](https://github.com/microsoft/winget-pkgs/pull/434439), merged; manual validation passed). The winget package tracks the portable `.zip` build; new upstream versions arrive via version-bump PRs, so it may lag the GitHub release slightly.
+
+## Not planned
+
 - **apt / OBS repository** — deliberately skipped (no hosted repos; release assets + Homebrew + winget cover installation).
-- **Windows MSI installer** (new in v0.2.1): download
-  [gannet-mcp-x86_64-pc-windows-msvc.msi](https://github.com/reinartz/gannet-mcp/releases/download/v0.2.1/gannet-mcp-x86_64-pc-windows-msvc.msi)
-  from the [v0.2.1 release page](https://github.com/reinartz/gannet-mcp/releases/tag/v0.2.1)
+- **Windows MSI installer** (since v0.2.1; ARM64 since v0.2.2): download
+  `gannet-mcp-x86_64-pc-windows-msvc.msi` (or `gannet-mcp-aarch64-pc-windows-msvc.msi`
+  for ARM64) from the [latest release page](https://github.com/reinartz/gannet-mcp/releases/latest)
   and run it. It installs `gannet-mcp.exe` (default `%ProgramFiles%\gannet-mcp\`)
   and adds it to `PATH`. The MSI is unsigned (signing is deferred), so expect a
   Windows SmartScreen warning. Service mode is not set up by the installer: after
