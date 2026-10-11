@@ -127,7 +127,7 @@ resolve the formula as untrusted.
 winget install OleReinartz.GannetMcp
 ```
 
-Published in the community repository ([PR #434439](https://github.com/microsoft/winget-pkgs/pull/434439), merged; manual validation passed). The winget package tracks the portable `.zip` build; new upstream versions arrive via version-bump PRs, so it may lag the GitHub release slightly.
+Published in the community repository ([PR #450559](https://github.com/microsoft/winget-pkgs/pull/450559), merged; all validations passed). The winget package serves the MSI installer (x64 + ARM64); new upstream versions arrive via version-bump PRs, so it may lag the GitHub release slightly.
 
 ## Not planned
 
