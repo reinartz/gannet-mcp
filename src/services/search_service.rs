@@ -19,6 +19,10 @@ const SEARXNG_DEFAULT_URL: &str = "http://127.0.0.1:8888";
 #[async_trait]
 pub trait SearchProvider: Send + Sync {
     /// Perform a search and return results
+    // async_trait expands to a Pin<Box<dyn Future>> return with its own
+    // #[must_use]; ServerResult (a Result alias) is already #[must_use],
+    // so newer clippy's double_must_use would fire without this allow.
+    #[allow(clippy::double_must_use)]
     async fn search(&self, params: &SearchParams) -> ServerResult<SearchResponse>;
 
     /// Provider name
