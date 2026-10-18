@@ -26,6 +26,8 @@ install-path = "CARGO_HOME"
 hosting = "github"
 # Whether to install an updater program
 install-updater = false
+# Icon files for installers (first matching platform icon is used)
+icons = ["assets/icons/gannet-mcp.ico", "assets/icons/gannet-mcp-128.png"]
 # Custom build setup injected right after actions/checkout, before the build
 # (see .github/build-setup-wix.yml). Path is relative to .github/workflows/.
 github-build-setup = "../build-setup-wix.yml"

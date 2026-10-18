@@ -4,6 +4,8 @@
 [![CI](https://github.com/reinartz/gannet-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/reinartz/gannet-mcp/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](LICENSE-MIT)
 
+![gannet-mcp](./assets/icons/gannet-mcp-1024.png)
+
 A Model Context Protocol (MCP) server implementation in Rust for web searching and webpage fetching.
 
 ## Features

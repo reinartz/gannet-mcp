@@ -7,6 +7,7 @@ Summary:        MCP server for web searching and webpages fetching
 
 License:        MIT and Apache-2.0
 URL:            https://github.com/reinartz/gannet-mcp
+Icon:           gannet-mcp.png
 Source0:        %{name}-%{version}.tar.gz
 
 BuildRequires:  rust >= 1.70
@@ -37,6 +38,20 @@ install -Dm 644 systemd/gannet-mcp.conf %{buildroot}%{_sysconfdir}/gannet-mcp.co
 install -Dm 644 systemd/gannet-mcp.sysusers %{buildroot}%{_sysusersdir}/gannet-mcp.conf
 install -Dm 644 systemd/gannet-mcp.tmpfiles %{buildroot}%{_tmpfilesdir}/gannet-mcp.conf
 
+# Install desktop icons
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/16x16/apps
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/32x32/apps
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/48x48/apps
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/64x64/apps
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/128x128/apps
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/256x256/apps
+install -Dm 644 assets/icons/gannet-mcp-16.png %{buildroot}%{_datadir}/icons/hicolor/16x16/apps/gannet-mcp.png
+install -Dm 644 assets/icons/gannet-mcp-32.png %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/gannet-mcp.png
+install -Dm 644 assets/icons/gannet-mcp-48.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/gannet-mcp.png
+install -Dm 644 assets/icons/gannet-mcp-64.png %{buildroot}%{_datadir}/icons/hicolor/64x64/apps/gannet-mcp.png
+install -Dm 644 assets/icons/gannet-mcp-128.png %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/gannet-mcp.png
+install -Dm 644 assets/icons/gannet-mcp-256.png %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/gannet-mcp.png
+
 %check
 %cargo_test
 
@@ -48,6 +63,12 @@ install -Dm 644 systemd/gannet-mcp.tmpfiles %{buildroot}%{_tmpfilesdir}/gannet-m
 %{_sysconfdir}/gannet-mcp.conf
 %{_sysusersdir}/gannet-mcp.conf
 %{_tmpfilesdir}/gannet-mcp.conf
+%{_datadir}/icons/hicolor/16x16/apps/gannet-mcp.png
+%{_datadir}/icons/hicolor/32x32/apps/gannet-mcp.png
+%{_datadir}/icons/hicolor/48x48/apps/gannet-mcp.png
+%{_datadir}/icons/hicolor/64x64/apps/gannet-mcp.png
+%{_datadir}/icons/hicolor/128x128/apps/gannet-mcp.png
+%{_datadir}/icons/hicolor/256x256/apps/gannet-mcp.png
 
 %changelog
 * Sun Sep 27 2026  Ole Reinartz - 0.2.2-1

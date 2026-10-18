@@ -158,15 +158,15 @@ pub fn render(
     let entry = if use_http {
         match client {
             McpClient::Opencode => {
-                serde_json::json!({"type": "remote", "url": http_url, "env": env_obj})
+                serde_json::json!({"type": "remote", "url": http_url, "env": env_obj, "icon": "https://raw.githubusercontent.com/reinartz/gannet-mcp/main/assets/icons/gannet-mcp-512.png"})
             }
             McpClient::Copilot => {
-                serde_json::json!({"type": "http", "url": http_url, "env": env_obj})
+                serde_json::json!({"type": "http", "url": http_url, "env": env_obj, "icon": "https://raw.githubusercontent.com/reinartz/gannet-mcp/main/assets/icons/gannet-mcp-512.png"})
             }
-            _ => serde_json::json!({"url": http_url, "env": env_obj}),
+            _ => serde_json::json!({"url": http_url, "env": env_obj, "icon": "https://raw.githubusercontent.com/reinartz/gannet-mcp/main/assets/icons/gannet-mcp-512.png"}),
         }
     } else {
-        serde_json::json!({"command": exe_path, "args": [], "env": env_obj})
+        serde_json::json!({"command": exe_path, "args": [], "env": env_obj, "icon": "https://raw.githubusercontent.com/reinartz/gannet-mcp/main/assets/icons/gannet-mcp-512.png"})
     };
     let mut servers = serde_json::Map::new();
     servers.insert("gannet-mcp".to_string(), entry);
