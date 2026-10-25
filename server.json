@@ -1,0 +1,23 @@
+{
+  "version": "0.1.0",
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.reinartz/gannet-mcp",
+  "description": "MCP server for web searching and webpage fetching",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/reinartz/gannet-mcp/main/assets/icons/gannet-mcp-128.png",
+      "sizes": ["128x128"],
+      "mimeType": "image/png"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/reinartz/gannet-mcp/main/assets/icons/gannet-mcp-256.png",
+      "sizes": ["256x256"],
+      "mimeType": "image/png"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/reinartz/gannet-mcp/main/assets/icons/gannet-mcp-1024.png",
+      "sizes": ["1024x1024"],
+      "mimeType": "image/png"
+    }
+  ]
+}
