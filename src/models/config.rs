@@ -778,7 +778,7 @@ content_selectors:
 exclude_selectors:
   - "aside"
 "#;
-        let config: ExtractionConfig = serde_yaml::from_str(yaml).unwrap();
+        let config: ExtractionConfig = serde_saphyr::from_str(yaml).unwrap();
         assert!(!config.extract_links);
         assert!(config.extract_images);
         assert_eq!(
@@ -832,7 +832,7 @@ cache_dir: /tmp/search-cache
 max_size_bytes: 52428800
 ttl_secs: 900
 "#;
-        let config: CacheConfig = serde_yaml::from_str(yaml).unwrap();
+        let config: CacheConfig = serde_saphyr::from_str(yaml).unwrap();
         assert!(config.enabled);
         assert_eq!(config.cache_dir, Some(PathBuf::from("/tmp/search-cache")));
         assert_eq!(config.max_size_bytes, 52428800);

@@ -584,7 +584,7 @@ timeout_secs: 45
 user_agent: "YamlBot/1.0"
 max_content_size: 5242880
 "#;
-        let params: FetchParams = serde_yaml::from_str(yaml).unwrap();
+        let params: FetchParams = serde_saphyr::from_str(yaml).unwrap();
         assert_eq!(params.url, "https://yaml-params.example.com");
         assert!(params.include_raw_html);
         assert!(params.extract_links);
@@ -600,7 +600,7 @@ max_content_size: 5242880
 url: https://partial-yaml.example.com
 extract_images: true
 "#;
-        let params: FetchParams = serde_yaml::from_str(yaml).unwrap();
+        let params: FetchParams = serde_saphyr::from_str(yaml).unwrap();
         assert_eq!(params.url, "https://partial-yaml.example.com");
         assert!(!params.include_raw_html);
         assert!(params.extract_links);

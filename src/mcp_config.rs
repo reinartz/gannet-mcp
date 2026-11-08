@@ -163,7 +163,9 @@ pub fn render(
             McpClient::Copilot => {
                 serde_json::json!({"type": "http", "url": http_url, "env": env_obj, "icon": "https://raw.githubusercontent.com/reinartz/gannet-mcp/main/assets/icons/gannet-mcp-512.png"})
             }
-            _ => serde_json::json!({"url": http_url, "env": env_obj, "icon": "https://raw.githubusercontent.com/reinartz/gannet-mcp/main/assets/icons/gannet-mcp-512.png"}),
+            _ => {
+                serde_json::json!({"url": http_url, "env": env_obj, "icon": "https://raw.githubusercontent.com/reinartz/gannet-mcp/main/assets/icons/gannet-mcp-512.png"})
+            }
         }
     } else {
         serde_json::json!({"command": exe_path, "args": [], "env": env_obj, "icon": "https://raw.githubusercontent.com/reinartz/gannet-mcp/main/assets/icons/gannet-mcp-512.png"})

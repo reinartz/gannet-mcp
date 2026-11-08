@@ -48,7 +48,6 @@ reqwest = { version = "0.13.4", features = ["json", "form", "rustls"], default-f
 # Serialization
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-serde_yaml = "0.9"
 
 # URL handling
 url = "2.5"
@@ -64,9 +63,6 @@ tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 # Error handling
 thiserror = "2.0.19"
 anyhow = "1.0"
-
-# Environment variables
-dotenv = "0.15"
 
 # Configuration
 config = "0.15.25"
@@ -91,6 +87,7 @@ clap = { version = "4.0", features = ["derive"] }
 ddgs = "0.1.0"
 
 [dev-dependencies]
+serde-saphyr = "2.1"
 tokio-test = "0.4"
 mockito = "1.4"
 tempfile = "3.10"

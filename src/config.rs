@@ -466,7 +466,7 @@ allowed_hosts:
   - localhost
   - example.org
 "#;
-        let cfg: HttpConfig = serde_yaml::from_str(yaml).unwrap();
+        let cfg: HttpConfig = serde_saphyr::from_str(yaml).unwrap();
         assert_eq!(cfg.path, "/v1/mcp");
         assert_eq!(cfg.sse_keep_alive_secs, Some(120));
         assert!(!cfg.json_response);
@@ -576,7 +576,7 @@ host: 0.0.0.0
 port: 9090
 use_stdio: false
 "#;
-        let cfg: ServerConfig = serde_yaml::from_str(yaml).unwrap();
+        let cfg: ServerConfig = serde_saphyr::from_str(yaml).unwrap();
         assert_eq!(cfg.host, "0.0.0.0");
         assert_eq!(cfg.port, 9090);
         assert!(!cfg.use_stdio);
@@ -674,7 +674,7 @@ default_limit: 25
 max_limit: 200
 timeout_secs: 20
 "#;
-        let cfg: SearchConfig = serde_yaml::from_str(yaml).unwrap();
+        let cfg: SearchConfig = serde_saphyr::from_str(yaml).unwrap();
         assert_eq!(cfg.provider, "brightdata");
         assert_eq!(cfg.api_key, Some("brightdata-key-456".to_string()));
         assert_eq!(cfg.search_engine_id, Some("serp_api1".to_string()));
@@ -747,7 +747,7 @@ requests_per_minute: 100
 max_concurrent: 20
 burst_size: 10
 "#;
-        let cfg: RateLimitConfig = serde_yaml::from_str(yaml).unwrap();
+        let cfg: RateLimitConfig = serde_saphyr::from_str(yaml).unwrap();
         assert!(!cfg.enabled);
         assert_eq!(cfg.requests_per_minute, 100);
         assert_eq!(cfg.max_concurrent, 20);
@@ -808,7 +808,7 @@ level: warn
 format: json
 include_timestamps: false
 "#;
-        let cfg: LoggingConfig = serde_yaml::from_str(yaml).unwrap();
+        let cfg: LoggingConfig = serde_saphyr::from_str(yaml).unwrap();
         assert_eq!(cfg.level, "warn");
         assert_eq!(cfg.format, "json");
         assert!(!cfg.include_timestamps);
@@ -896,7 +896,7 @@ logging:
   format: compact
   include_timestamps: false
 "#;
-        let cfg: Config = serde_yaml::from_str(yaml).unwrap();
+        let cfg: Config = serde_saphyr::from_str(yaml).unwrap();
         assert_eq!(cfg.server.host, "0.0.0.0");
         assert_eq!(cfg.server.http.path, "/v1/mcp");
         assert!(!cfg.server.http.json_response);
@@ -974,7 +974,7 @@ logging:
         let mut tmp = tempfile::Builder::new().suffix(".yaml").tempfile().unwrap();
         tmp.write_all(yaml_content.as_bytes()).unwrap();
         let content = std::fs::read_to_string(tmp.path()).unwrap();
-        let cfg: Config = serde_yaml::from_str(&content).unwrap();
+        let cfg: Config = serde_saphyr::from_str(&content).unwrap();
         assert_eq!(cfg.server.host, "0.0.0.0");
         assert_eq!(cfg.server.port, 9090);
         assert_eq!(cfg.search.provider, "brightdata");
